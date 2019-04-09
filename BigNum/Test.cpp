@@ -5,8 +5,8 @@
 
 int main()
 {
-	bignum n1("674");
-	bignum n2("6777");
+	bignum n1("-154");
+	bignum n2("1234");
 	bignum n3;
 	n3 = n1 - n2;
 	n3.show();
