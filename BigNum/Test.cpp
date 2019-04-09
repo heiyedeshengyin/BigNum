@@ -1,11 +1,19 @@
 ﻿// BigNum.cpp : 此文件包含 "main" 函数。程序执行将在此处开始并结束。
 //
 
-#include <iostream>
+#include "BigNum.h"
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	bignum n1("4363460");
+	bignum n2("4363461");
+
+	if (n1 <= n2)
+		cout << "n1 <= n2" << endl;
+	else
+		cout << "n1 > n2" << endl;
+
+	return 0;
 }
 
 // 运行程序: Ctrl + F5 或调试 >“开始执行(不调试)”菜单
