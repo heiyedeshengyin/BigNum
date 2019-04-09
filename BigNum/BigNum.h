@@ -1,3 +1,18 @@
+/*
+	Copyright 2019 heiyedeshengyin All Rights Reserved.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
 #pragma once
 
 #ifndef BIGNUM_H
@@ -31,6 +46,8 @@ public:
 	bool operator<(const bignum& compare_num);
 	bool operator>=(const bignum& compare_num);
 	bool operator<=(const bignum& compare_num);
+	bignum operator+(const bignum& add_num);
+	bignum operator-(const bignum& sub_num);
 };
 
 bignum::bignum()
@@ -556,6 +573,246 @@ bool bignum::operator<=(const bignum& compare_num)
 			}
 			return true;
 		}
+	}
+}
+
+bignum bignum::operator+(const bignum& add_num)
+{
+	bignum result;
+
+	if (is_positive && add_num.is_positive || !is_positive && !add_num.is_positive)
+	{
+		int carry = 0;
+		int result_index = 0;
+		int temp = 0;
+		int* added_num;
+		int* _add_num;
+		int* result_num;
+		added_num = new int[length + add_num.length];
+		_add_num = new int[length + add_num.length];
+		result_num = new int[length + add_num.length];
+		for (int i = 0; i < length + add_num.length; i++)
+		{
+			if (i < length)
+				added_num[i] = num[i];
+			else
+				added_num[i] = 0;
+
+			if (i < add_num.length)
+				_add_num[i] = add_num.num[i];
+			else
+				_add_num[i] = 0;
+
+			result_num[i] = 0;
+		}
+		for (int i = 0; i < length || i < add_num.length; i++)
+		{
+			temp = added_num[i] + _add_num[i] + carry;
+			result_num[result_index] = temp % 10;
+			result_index++;
+			carry = temp / 10;
+		}
+		if (carry != 0)
+		{
+			result_num[result_index] = carry;
+			result_index++;
+		}
+
+		delete result.num;
+		result.num = new int[result_index];
+		result.length = result_index;
+		for (int i = 0; i < result_index; i++)
+			result.num[i] = result_num[i];
+
+		if (is_positive && add_num.is_positive)
+		{
+			result.is_positive = true;
+			return result;
+		}
+		else if (!is_positive && !add_num.is_positive)
+		{
+			result.is_positive = false;
+			return result;
+		}
+	}
+	else
+	{
+		cout << "目前只能进行正数与正数的加法和负数与负数的加法" << endl;
+		return result;
+	}
+}
+
+bignum bignum::operator-(const bignum& sub_num)
+{
+	bignum result;
+
+	if (is_positive && sub_num.is_positive)
+	{
+		if (*this == sub_num)
+			return result;
+		else
+		{
+			int carry = 0;
+			int result_index = 0;
+			int temp = 0;
+			int* subed_num;
+			int* _sub_num;
+			int* result_num;
+			subed_num = new int[length + sub_num.length];
+			_sub_num = new int[length + sub_num.length];
+			result_num = new int[length + sub_num.length];
+			for (int i = 0; i < length + sub_num.length; i++)
+			{
+				if (i < length)
+					subed_num[i] = num[i];
+				else
+					subed_num[i] = 0;
+
+				if (i < sub_num.length)
+					_sub_num[i] = sub_num.num[i];
+				else
+					_sub_num[i] = 0;
+
+				result_num[i] = 0;
+			}
+
+			if (*this > sub_num)
+			{
+				for (int i = 0; i < length || i < sub_num.length; i++)
+				{
+					if (subed_num[i] < _sub_num[i])
+						if (subed_num[i + 1] > 0)
+						{
+							subed_num[i + 1]--;
+							subed_num[i] += 10;
+						}
+					result_num[result_index] = subed_num[i] - _sub_num[i];
+					result_index++;
+				}
+				while (result_index - 1 >= 1 && result_num[result_index - 1] == 0)
+					result_index--;
+
+				result.length = result_index;
+				result.is_positive = true;
+				delete result.num;
+				result.num = new int[length];
+				for (int i = 0; i < result_index; i++)
+					result.num[i] = result_num[i];
+
+				return result;
+			}
+			else
+			{
+				for (int i = 0; i < length || i < sub_num.length; i++)
+				{
+					if (_sub_num[i] < subed_num[i])
+						if (_sub_num[i + 1] > 0)
+						{
+							_sub_num[i + 1]--;
+							_sub_num[i] += 10;
+						}
+					result_num[result_index] = _sub_num[i] - subed_num[i];
+					result_index++;
+				}
+				while (result_index - 1 >= 1 && result_num[result_index - 1] == 0)
+					result_index--;
+
+				result.length = result_index;
+				result.is_positive = false;
+				delete result.num;
+				result.num = new int[length];
+				for (int i = 0; i < result_index; i++)
+					result.num[i] = result_num[i];
+
+				return result;
+			}
+		}
+	}
+	else if (!is_positive && !sub_num.is_positive)
+	{
+		if (*this == sub_num)
+			return result;
+		else
+		{
+			int carry = 0;
+			int result_index = 0;
+			int temp = 0;
+			int* subed_num;
+			int* _sub_num;
+			int* result_num;
+			subed_num = new int[length + sub_num.length];
+			_sub_num = new int[length + sub_num.length];
+			result_num = new int[length + sub_num.length];
+			for (int i = 0; i < length + sub_num.length; i++)
+			{
+				if (i < length)
+					subed_num[i] = num[i];
+				else
+					subed_num[i] = 0;
+
+				if (i < sub_num.length)
+					_sub_num[i] = sub_num.num[i];
+				else
+					_sub_num[i] = 0;
+
+				result_num[i] = 0;
+			}
+
+			if (*this > sub_num)
+			{
+				for (int i = 0; i < length || i < sub_num.length; i++)
+				{
+					if (_sub_num[i] < subed_num[i])
+						if (_sub_num[i + 1] > 0)
+						{
+							_sub_num[i + 1]--;
+							_sub_num[i] += 10;
+						}
+					result_num[result_index] = _sub_num[i] - subed_num[i];
+					result_index++;
+				}
+				while (result_index - 1 >= 1 && result_num[result_index - 1] == 0)
+					result_index--;
+
+				result.length = result_index;
+				result.is_positive = true;
+				delete result.num;
+				result.num = new int[length];
+				for (int i = 0; i < result_index; i++)
+					result.num[i] = result_num[i];
+
+				return result;
+			}
+			else if(*this < sub_num)
+			{
+				for (int i = 0; i < length || i < sub_num.length; i++)
+				{
+					if (subed_num[i] < _sub_num[i])
+						if (subed_num[i + 1] > 0)
+						{
+							subed_num[i + 1]--;
+							subed_num[i] += 10;
+						}
+					result_num[result_index] = subed_num[i] - _sub_num[i];
+					result_index++;
+				}
+				while (result_index - 1 >= 1 && result_num[result_index - 1] == 0)
+					result_index--;
+
+				result.length = result_index;
+				result.is_positive = false;
+				delete result.num;
+				result.num = new int[length];
+				for (int i = 0; i < result_index; i++)
+					result.num[i] = result_num[i];
+
+				return result;
+			}
+		}
+	}
+	else
+	{
+		return result;
 	}
 }
 

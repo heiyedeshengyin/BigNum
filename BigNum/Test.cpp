@@ -5,13 +5,11 @@
 
 int main()
 {
-	bignum n1("4363460");
-	bignum n2("4363461");
-
-	if (n1 <= n2)
-		cout << "n1 <= n2" << endl;
-	else
-		cout << "n1 > n2" << endl;
+	bignum n1("674");
+	bignum n2("6777");
+	bignum n3;
+	n3 = n1 - n2;
+	n3.show();
 
 	return 0;
 }
