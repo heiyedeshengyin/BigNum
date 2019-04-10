@@ -49,8 +49,7 @@ public:
 	bool operator<=(const bignum& compare_num);
 	bignum operator+(const bignum& add_num);
 	bignum operator-(const bignum& sub_num);
+	bignum operator*(const bignum& mul_num);
 };
-
-
 
 #endif // !BIGNUM_H

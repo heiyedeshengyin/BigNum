@@ -1,3 +1,19 @@
+/*
+	Copyright 2019 heiyedeshengyin All Rights Reserved.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+	   http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+*/
+
 #include "BigNum.h";
 
 bignum::bignum()
@@ -886,4 +902,61 @@ bignum bignum::operator-(const bignum& sub_num)
 			return result;
 		}
 	}
+}
+
+bignum bignum::operator*(const bignum& mul_num)
+{
+	bignum result;
+	if (length == 1 && num[0] == 0 || mul_num.length == 1 && mul_num.num[0] == 0)
+		return result;
+	
+	int* result_num;
+	int* muled_num;
+	int* _mul_num;
+	int result_length = length + mul_num.length;
+	result_num = new int[length + mul_num.length + 1];
+	muled_num = new int[length + mul_num.length + 1];
+	_mul_num = new int[length + mul_num.length + 1];
+	result_num[0] = 0;
+	muled_num[0] = 0;
+	_mul_num[0] = 0;
+	
+	for (int i = 1; i <= length + mul_num.length; i++)
+	{
+		if (i <= length)
+			muled_num[i] = num[i - 1];
+		else
+			muled_num[i] = 0;
+
+		if (i <= mul_num.length)
+			_mul_num[i] = mul_num.num[i - 1];
+		else
+			_mul_num[i] = 0;
+
+		result_num[i] = 0;
+	}
+
+	for (int i = 1; i <= length; i++)
+		for (int j = 1; j <= mul_num.length; j++)
+		{
+			result_num[i + j - 1] += muled_num[i] * _mul_num[j];
+			result_num[i + j] += result_num[i + j - 1] / 10;
+			result_num[i + j - 1] %= 10;
+		}
+
+	while (result_num[result_length] == 0 && result_length > 1)
+		result_length--;
+
+	result.length = result_length;
+	delete result.num;
+	result.num = new int[result_length];
+	for (int i = 1; i <= result_length; i++)
+		result.num[i - 1] = result_num[i];
+
+	if (is_positive && mul_num.is_positive || !is_positive && !mul_num.is_positive)
+		result.is_positive = true;
+	else if (is_positive && !mul_num.is_positive || !is_positive && mul_num.is_positive)
+		result.is_positive = false;
+
+	return result;
 }
