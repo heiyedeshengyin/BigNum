@@ -5,10 +5,11 @@
 
 int main()
 {
-	bignum n1("-154");
-	bignum n2("1234");
+	bignum n1("-543545");
+	bignum n2("54353");
 	bignum n3;
-	n3 = n1 - n2;
+	
+	n3 = n1 + n2;
 	n3.show();
 
 	return 0;
