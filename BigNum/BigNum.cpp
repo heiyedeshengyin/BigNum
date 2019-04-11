@@ -16,6 +16,10 @@
 
 #include "BigNum.h";
 
+/*
+	无参构造函数
+	默认赋值零
+*/
 bignum::bignum()
 {
 	num = new int[1];
@@ -24,6 +28,11 @@ bignum::bignum()
 	is_positive = true;
 }
 
+/*
+	用字符串来构造大整数
+	注意字符串必须是整数的形式,允许带'+','-'在字符串首位
+	const char* str:传入的字符串
+*/
 bignum::bignum(const char* str)
 {
 	int zero_count = 0;
@@ -141,6 +150,10 @@ bignum::bignum(const char* str)
 		}
 }
 
+/*
+	用int类型来构造大整数
+	int _num:传入的int类型数
+*/
 bignum::bignum(int _num)
 {
 	int m_num = _num;
@@ -182,6 +195,10 @@ bignum::bignum(int _num)
 	}
 }
 
+/*
+	用usigned long类型来构造大整数
+	unsigned long _num:传入的usigned long类型数
+*/
 bignum::bignum(unsigned long _num)
 {
 	unsigned long m_num = _num;
@@ -223,6 +240,10 @@ bignum::bignum(unsigned long _num)
 	}
 }
 
+/*
+	用long long类型来构造大整数
+	long long _num:传入的long long类型数
+*/
 bignum::bignum(long long _num)
 {
 	long long m_num = _num;
@@ -264,6 +285,10 @@ bignum::bignum(long long _num)
 	}
 }
 
+/*
+	拷贝构造函数
+	const bignum& ano:被拷贝的大整数
+*/
 bignum::bignum(const bignum& ano)
 {
 	length = ano.length;
@@ -274,26 +299,65 @@ bignum::bignum(const bignum& ano)
 		num[i] = ano.num[i];
 }
 
+/*
+	析构函数
+*/
 bignum::~bignum()
 {
 	delete num;
 }
 
+/*
+	返回大整数的符号
+	true为正,false为负,注意:0为正数
+
+	@Return bool
+*/
 bool bignum::isPositive()
 {
 	return is_positive;
 }
 
+/*
+	判断大整数是否为零
+
+	@Return bool
+*/
 bool bignum::isZero()
 {
 	return length == 1 && num[0] == 0;
 }
 
+/*
+	返回大整数的位数
+
+	@Return int
+*/
 int bignum::getLength()
 {
 	return length;
 }
 
+/*
+	返回存储大整数的数组
+	采用倒序存储
+
+	@Return int*
+*/
+int* bignum::getArray()
+{
+	int* result;
+	result = new int[length];
+	for (int i = 0; i < length; i++)
+		result[i] = num[i];
+	return result;
+}
+
+/*
+	打印大整数
+
+	@Return void
+*/
 void bignum::show()
 {
 	if (!is_positive)
@@ -305,6 +369,12 @@ void bignum::show()
 	cout << endl;
 }
 
+/*
+	返回大整数的绝对值
+	注意:调用此函数的大整数不受影响
+
+	@Return bignum
+*/
 bignum bignum::abs()
 {
 	bignum result;
@@ -319,6 +389,12 @@ bignum bignum::abs()
 	return result;
 }
 
+/*
+	重载=运算符
+	const bignum& copy_num:赋值的大整数
+
+	@Return bignum&
+*/
 bignum& bignum::operator=(const bignum& copy_num)
 {
 	if (this == &copy_num)
@@ -334,6 +410,12 @@ bignum& bignum::operator=(const bignum& copy_num)
 	return *this;
 }
 
+/*
+	重载==运算符
+	const bignum & compare_num:与之比较的大整数
+
+	@Return bool
+*/
 bool bignum::operator==(const bignum & compare_num)
 {
 	if (length != compare_num.length || is_positive != compare_num.is_positive)
@@ -348,6 +430,12 @@ bool bignum::operator==(const bignum & compare_num)
 	}
 }
 
+/*
+	重载!=运算符
+	const bignum & compare_num:与之比较的大整数
+
+	@Return bool
+*/
 bool bignum::operator!=(const bignum & compare_num)
 {
 	if (length != compare_num.length || is_positive != compare_num.is_positive)
@@ -362,6 +450,12 @@ bool bignum::operator!=(const bignum & compare_num)
 	}
 }
 
+/*
+	重载>运算符
+	const bignum & compare_num:与之比较的大整数
+
+	@Return bool
+*/
 bool bignum::operator>(const bignum & compare_num)
 {
 	if (is_positive && !compare_num.is_positive)
@@ -409,6 +503,12 @@ bool bignum::operator>(const bignum & compare_num)
 	}
 }
 
+/*
+	重载<运算符
+	const bignum & compare_num:与之比较的大整数
+
+	@Return bool
+*/
 bool bignum::operator<(const bignum & compare_num)
 {
 	if (is_positive && !compare_num.is_positive)
@@ -456,6 +556,12 @@ bool bignum::operator<(const bignum & compare_num)
 	}
 }
 
+/*
+	重载>=运算符
+	const bignum & compare_num:与之比较的大整数
+
+	@Return bool
+*/
 bool bignum::operator>=(const bignum & compare_num)
 {
 	if (is_positive && !compare_num.is_positive)
@@ -503,6 +609,12 @@ bool bignum::operator>=(const bignum & compare_num)
 	}
 }
 
+/*
+	重载<=运算符
+	const bignum & compare_num:与之比较的大整数
+
+	@Return bool
+*/
 bool bignum::operator<=(const bignum & compare_num)
 {
 	if (is_positive && !compare_num.is_positive)
@@ -550,6 +662,12 @@ bool bignum::operator<=(const bignum & compare_num)
 	}
 }
 
+/*
+	重载+运算符
+	const bignum & add_num:加数
+
+	@Return bignum
+*/
 bignum bignum::operator+(const bignum & add_num)
 {
 	bignum result;
@@ -768,6 +886,12 @@ bignum bignum::operator+(const bignum & add_num)
 	}
 }
 
+/*
+	重载-运算符
+	const bignum& sub_num:减数
+
+	@Return bignum
+*/
 bignum bignum::operator-(const bignum& sub_num)
 {
 	bignum result;
@@ -904,6 +1028,12 @@ bignum bignum::operator-(const bignum& sub_num)
 	}
 }
 
+/*
+	重载*运算符
+	const bignum& mul_num:乘数
+
+	@Return bignum
+*/
 bignum bignum::operator*(const bignum& mul_num)
 {
 	bignum result;
@@ -959,4 +1089,494 @@ bignum bignum::operator*(const bignum& mul_num)
 		result.is_positive = false;
 
 	return result;
+}
+
+/*
+	重载/运算符
+	const bignum& div_num:除数
+
+	@Return bignum
+*/
+bignum bignum::operator/(const bignum& div_num)
+{
+	bignum result;
+	bignum _abs(*this);
+	_abs.is_positive = true;
+	bignum abs_div_num(div_num);
+	abs_div_num.is_positive = true;
+
+	if (abs_div_num.length == 1 && abs_div_num.num[0] == 0)
+	{
+		cout << "除法运算符错误:不能除0" << endl;
+		return result;
+	}
+	if (_abs.length == 1 && _abs.num[0] == 0)
+		return result;
+
+	if (_abs < abs_div_num)
+		return result;
+	else if (_abs == abs_div_num)
+	{
+		result.num[0] = 1;
+		if (is_positive && div_num.is_positive || !is_positive && !div_num.is_positive)
+			result.is_positive = true;
+		else if (is_positive && !div_num.is_positive || !is_positive && div_num.is_positive)
+			result.is_positive = false;
+		return result;
+	}
+	else
+	{
+		bignum int_max("999999999");
+		if (abs_div_num <= int_max)
+		{
+			int _div_num_int = bignumToInt(abs_div_num);
+			int result_length = _abs.length;
+			int rem_num = 0;
+			int* result_num;
+			int* dived_num;
+			result_num = new int[length + div_num.length];
+			dived_num= new int[length + div_num.length];
+
+			for (int i = 0; i < length + div_num.length; i++)
+			{
+				if (i < length)
+					dived_num[i] = _abs.num[i];
+				else
+					dived_num[i] = 0;
+
+				result_num[i] = 0;
+			}
+
+			for (int i = result_length - 1; i >= 0; i--)
+			{
+				if (rem_num < 0 || rem_num >214748363)
+				{
+					cout << "除法错误:rem_num超出范围" << endl;
+					return result;
+				}
+				rem_num = rem_num * 10 + dived_num[i];
+				result_num[i] = rem_num / _div_num_int;
+				rem_num %= _div_num_int;
+			}
+			
+			while (result_length - 1 >= 1 && result_num[result_length - 1] == 0)
+				result_length--;
+
+			result.length = result_length;
+			delete result.num;
+			result.num = new int[result_length];
+			for (int i = 0; i < result_length; i++)
+				result.num[i] = result_num[i];
+
+			if (is_positive && div_num.is_positive || !is_positive && !div_num.is_positive)
+				result.is_positive = true;
+			else if (is_positive && !div_num.is_positive || !is_positive && div_num.is_positive)
+				result.is_positive = false;
+
+			return result;
+		}
+		else
+		{
+			/*int* result_num;
+			int result_length = 0;
+			int result_index = 0;
+			int index_of_dived = _abs.length - 1;
+			int simple_result = 0;
+			bignum dived_pro_num;
+			bignum div_mul_num;
+			bignum simple_mul_num;
+			bignum subed_pro_num;
+
+			dived_pro_num.length = abs_div_num.length;
+			delete dived_pro_num.num;
+			dived_pro_num.num = new int[dived_pro_num.length];
+			for (int i = dived_pro_num.length - 1; i >= 0; i--)
+			{
+				dived_pro_num.num[i] = _abs.num[index_of_dived];
+				index_of_dived--;
+			}
+
+			if (dived_pro_num >= abs_div_num)
+			{
+				result_length = _abs.length - abs_div_num.length + 1;
+				result_num = new int[result_length];
+			}
+			else if(dived_pro_num < abs_div_num)
+			{
+				result_length = _abs.length - abs_div_num.length;
+				result_num = new int[result_length];
+				result_index = result_length - 1;
+				index_of_dived += dived_pro_num.length;
+
+				dived_pro_num.length++;
+				delete dived_pro_num.num;
+				dived_pro_num.num = new int[dived_pro_num.length];
+				for (int i = dived_pro_num.length - 1; i >= 0; i--)
+				{
+					dived_pro_num.num[i] = _abs.num[index_of_dived];
+					index_of_dived--;
+				}
+
+				for (int i = 1; i <= 9; i++)
+				{
+					simple_mul_num.num[0] = i;
+					div_mul_num = abs_div_num * simple_mul_num;
+					subed_pro_num = dived_pro_num - div_mul_num;
+					if (subed_pro_num < abs_div_num)
+					{
+						result_num[result_index] = i;
+						result_index--;
+						break;
+					}
+				}
+			}
+			*/
+			
+			int* result_num;
+			int* dived_num;
+			int* _div_num;
+			int result_length = length;
+			int dived_num_length = length;
+			int div_num_length = div_num.length;
+			int nTimes = 0;
+			int nTemps = 0;
+
+			result_num = new int[length + div_num.length];
+			dived_num = new int[length + div_num.length];
+			_div_num = new int[length + div_num.length];
+
+			for (int i = 0; i < length + div_num.length; i++)
+			{
+				if (i < length)
+					dived_num[i] = num[i];
+				else
+					dived_num[i] = 0;
+
+				if (i < div_num.length)
+					_div_num[i] = div_num.num[i];
+				else
+					_div_num[i] = 0;
+
+				result_num[i] = 0;
+			}
+
+			nTimes = dived_num_length - div_num_length;
+			for (int i = dived_num_length - 1; i >= 0; i--)
+			{
+				if (i >= nTimes)
+					_div_num[i] = _div_num[i - nTimes];
+				else
+					_div_num[i] = 0;
+			}
+			div_num_length = dived_num_length;
+
+			for (int i = 0; i <= nTimes; i++)
+			{
+				while ((nTemps = SubStract(dived_num, _div_num + i, dived_num_length, div_num_length - i)) >= 0)
+				{
+					dived_num_length = nTemps;
+					result_num[nTimes - i]++;
+				}
+			}
+
+			while (result_length - 1 >= 1 && result_num[result_length - 1] == 0)
+				result_length--;
+
+			result.length = result_length;
+			delete result.num;
+			result.num = new int[result_length];
+			for (int i = 0; i < result_length; i++)
+				result.num[i] = result_num[i];
+
+			if (is_positive && div_num.is_positive || !is_positive && !div_num.is_positive)
+				result.is_positive = true;
+			else if (is_positive && !div_num.is_positive || !is_positive && div_num.is_positive)
+				result.is_positive = false;
+
+			return result;
+		}
+	}
+}
+
+/*
+	重载%运算符
+	const bignum& div_num:除数
+
+	@Return bignum
+*/
+bignum bignum::operator%(const bignum& div_num)
+{
+	bignum result;
+	bignum _abs(*this);
+	_abs.is_positive = true;
+	bignum abs_div_num(div_num);
+	abs_div_num.is_positive = true;
+
+	if (abs_div_num.length == 1 && abs_div_num.num[0] == 0)
+	{
+		cout << "取余运算符错误:不能除0" << endl;
+		return result;
+	}
+	if (_abs.length == 1 && _abs.num[0] == 0)
+		return result;
+
+	if (_abs < abs_div_num)
+	{
+		result = _abs;
+		result.is_positive = is_positive;
+		return result;
+	}
+	else if (_abs == abs_div_num)
+		return result;
+	else
+	{
+		bignum int_max("999999999");
+		if (abs_div_num <= int_max)
+		{
+			int ans = 0;
+			int b = bignumToInt(abs_div_num);
+			for (int i = _abs.length - 1; i >= 0; i--)
+			{
+				ans = (10 * ans + _abs.num[i]) % b;
+			}
+			bignum return_num(ans);
+			return_num.is_positive = is_positive;
+			return return_num;
+		}
+		else
+		{
+			bignum div_result = _abs / abs_div_num;
+			bignum mul_result = div_result * abs_div_num;
+			result = _abs - mul_result;
+			result.is_positive = is_positive;
+			return result;
+		}
+	}
+}
+
+/*
+	重载+=运算符
+	const bignum& add_num:加数
+
+	@Return bignum
+*/
+bignum bignum::operator+=(const bignum& add_num)
+{
+	*this = *this + add_num;
+	return *this;
+}
+
+/*
+	重载-=运算符
+	const bignum& sub_num:减数
+
+	@Return bignum
+*/
+bignum bignum::operator-=(const bignum& sub_num)
+{
+	*this = *this - sub_num;
+	return *this;
+}
+
+/*
+	重载*=运算符
+	const bignum& mul_num:乘数
+
+	@Return bignum
+*/
+bignum bignum::operator*=(const bignum& mul_num)
+{
+	*this = *this * mul_num;
+	return *this;
+}
+
+/*
+	重载/=运算符
+	const bignum& div_num:除数
+
+	@Return bignum
+*/
+bignum bignum::operator/=(const bignum& div_num)
+{
+	*this = *this / div_num;
+	return *this;
+}
+
+/*
+	重载%=运算符
+	const bignum& div_num:除数
+
+	@Return bignum
+*/
+bignum bignum::operator%=(const bignum& div_num)
+{
+	*this = *this % div_num;
+	return *this;
+}
+
+/*
+	重载++前缀运算符
+
+	@Return bignum
+*/
+bignum bignum::operator++()
+{
+	bignum added("1");
+	*this = *this + added;
+	return *this;
+}
+
+/*
+	重载++后缀运算符
+
+	@Return bignum
+*/
+bignum bignum::operator++(int)
+{
+	bignum return_num(*this);
+	bignum added("1");
+	*this = *this + added;
+	return return_num;
+}
+
+/*
+	重载--前缀运算符
+
+	@Return bignum
+*/
+bignum bignum::operator--()
+{
+	bignum subed("1");
+	*this = *this - subed;
+	return *this;
+}
+
+/*
+	重载--后缀运算符
+
+	@Return bignum
+*/
+bignum bignum::operator--(int)
+{
+	bignum return_num(*this);
+	bignum subed("1");
+	*this = *this - subed;
+	return return_num;
+}
+
+/*
+	大整数转int类型
+	const bignum& _num:要转换的大整数
+
+	@Return int
+*/
+int bignumToInt(const bignum& _num)
+{
+	bignum trans_num(_num);
+	bignum int_max("2147483647");
+	bignum int_min("-2147483647");
+	if (trans_num < int_min || trans_num > int_max)
+	{
+		cout << "bignumToInt函数错误:传入的参数超出范围" << endl;
+		return 0;
+	}
+	else
+	{
+		int mi = 1;
+		int result = 0;
+		for (int i = 0; i < trans_num.length; i++)
+		{
+			result += trans_num.num[i] * mi;
+			mi *= 10;
+		}
+		if (!trans_num.is_positive)
+			result = 0 - result;
+
+		return result;
+	}
+}
+
+/*
+	求阶乘
+	int r:阶数
+
+	@Return bignum
+*/
+bignum fac(int r)
+{
+	bignum result("1");
+	if (r < 1)
+	{
+		cout << "fac函数错误,传入的参数不符合规范" << endl;
+		return result;
+	}
+	else
+	{
+		bignum m1("1");
+		for (int i = 1; i <= r; i++)
+		{
+			result = result * m1;
+			++m1;
+		}
+		return result;
+	}
+}
+
+/*
+	数组之间的减法
+	主要用于重载/运算符
+	int* p1:被减数
+	int* p2:减数
+	int len1:被减数的长度
+	int len2:减数的长度
+
+	@Return int
+*/
+int SubStract(int* p1, int* p2, int len1, int len2)
+{
+	int i;
+	if (len1 < len2)
+		return -1;
+	if (len1 == len2)
+	{                        //判断p1 > p2
+		for (i = len1 - 1; i >= 0; i--)
+		{
+			if (p1[i] > p2[i])   //若大，则满足条件，可做减法
+				break;
+			else if (p1[i] < p2[i]) //否则返回-1
+				return -1;
+		}
+	}
+	for (i = 0; i <= len1 - 1; i++)  //从低位开始做减法
+	{
+		p1[i] -= p2[i];
+		if (p1[i] < 0)          //若p1<0，则需要借位
+		{
+			p1[i] += 10;         //借1当10
+			p1[i + 1]--;           //高位减1
+		}
+	}
+	for (i = len1 - 1; i >= 0; i--)       //查找结果的最高位
+		if (p1[i])                  //最高位第一个不为0
+			return (i + 1);       //得到位数并返回
+	return 0;                  //两数相等的时候返回0
+}
+
+/*
+	重载<<运算符
+	ostream& os:输出流
+	bignum num:大整数
+
+	@Return ostream&
+*/
+ostream& operator<<(ostream& os, bignum num)
+{
+	if (!num.isPositive())
+		os << "-";
+
+	int* _num = num.getArray();
+	for (int i = num.getLength() - 1; i >= 0; i--)
+		os << _num[i];
+
+	return os;
 }
