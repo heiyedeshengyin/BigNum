@@ -5,8 +5,12 @@
 
 int main()
 {
-	bignum n1("40");
-	cout << n1 << endl;
+	bignum n1("4023423546457658658598857567");
+	bignum n2("1231242141241241");
+	bignum n3;
+
+	n3 = n1 % n2;
+	n3.show();
 
 	return 0;
 }

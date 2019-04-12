@@ -12,6 +12,12 @@
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
+
+   @file BigNum.h
+   @brief 大整数的头文件,记录了大整数的数据结构和函数声明
+   @author heiyedeshengyin
+   @date 2019.4.12 12:49:32
+   @license Apache License, Version 2.0
 */
 #pragma once
 
