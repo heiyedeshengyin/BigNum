@@ -1,5 +1,6 @@
 # BigNum
-大整数类的运算,高精度计算
+大整数类的运算,高精度计算  
+[![LICENSE](https://img.shields.io/badge/license-Apache%202-blue.svg?style=flat-square)](https://github.com/heiyedeshengyin/BigNum/blob/master/LICENSE) [![HitCount](http://hits.dwyl.io/heiyedeshengyin/BigNum.svg)](http://hits.dwyl.io/heiyedeshengyin/BigNum)
 
 ### 简介
 到目前为止写的最长的代码  
